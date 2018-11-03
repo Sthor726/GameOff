@@ -1,16 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+[CreateAssetMenu(fileName = "New Card", menuName = "Card")]
+public class Card : ScriptableObject {
 
-public class Card : MonoBehaviour {
+    public string cardName = "Card Name";
+    public string description = "Card description";
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public float damage;
+    public float maxHealth;
+    public float cost;
+
+    public Ability ability = 0;
+
 }
+public enum Ability { None, BoostEnergy,}
