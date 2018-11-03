@@ -11,7 +11,9 @@ public class CardObject : MonoBehaviour {
     public Text costText; 
     public Text healthText; 
     public Text nameText; 
-    public Text descriptionText; 
+    public Text descriptionText;
+
+    public Image image;
 
 	// Use this for initialization
 	void Start () {
@@ -20,14 +22,26 @@ public class CardObject : MonoBehaviour {
         costText.text = card.cost.ToString();
         healthText.text = card.maxHealth.ToString();
         nameText.text = card.cardName;
-        descriptionText.text = card.ability.ToString();
-
+        descriptionText.text = "Ability: " + card.ability.ToString();
+        image.sprite = card.icon;
 	}
 	
-    void OnClick()
+    public void OnClick()
     {
-        //instantiate card in game
-        Destroy(gameObject);
+        if(Player.instance.currentEnergy >= card.cost)
+        {
+
+            Player.instance.currentEnergy -= card.cost;
+
+            //instantiate card in game
+            Destroy(gameObject);
+        }
+        else
+        {
+            Debug.Log("Not Enough Energy");
+        }
+
+        
     }
 
 	// Update is called once per frame

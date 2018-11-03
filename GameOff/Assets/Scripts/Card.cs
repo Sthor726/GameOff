@@ -5,11 +5,12 @@ using UnityEngine;
 public class Card : ScriptableObject {
 
     public string cardName = "Card Name";
-    public string description = "Card description";
 
     public float damage;
     public float maxHealth;
     public float cost;
+
+    public Sprite icon;
 
     public Ability ability = 0;
 
