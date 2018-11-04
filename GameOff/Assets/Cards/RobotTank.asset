@@ -9,12 +9,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2827b150499096540be69376e73a6f65, type: 3}
-  m_Name: Drone
+  m_Name: RobotTank
   m_EditorClassIdentifier: 
-  cardName: Drone
-  damage: 3
-  maxHealth: 1
-  cost: 2
-  description: Wow a card
+  cardName: Tank
+  damage: 7
+  maxHealth: 10
+  cost: 8
+  description: 
   icon: {fileID: 0}
   ability: 0

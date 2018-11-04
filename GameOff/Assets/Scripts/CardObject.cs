@@ -46,14 +46,15 @@ public class CardObject : MonoBehaviour {
             _gameCard.GetComponent<InGameCard>().isFront = true;
             Destroy(gameObject);
         }
-        else if(Player.instance.currentEnergy >= card.cost && HandManager.instance.cardsInBench < 5)
+        else if(Player.instance.currentEnergy >= card.cost && HandManager.instance.cardsInBench.Count < 5)
         {
 
             Player.instance.currentEnergy -= card.cost;
-            HandManager.instance.cardsInBench++;
+            
             GameObject _gameCard = Instantiate(gameCard, transform.position, transform.rotation);
             _gameCard.GetComponent<InGameCard>().card = card;
             _gameCard.transform.SetParent(bench);
+            HandManager.instance.cardsInBench.Add(_gameCard.GetComponent<InGameCard>());
             Destroy(gameObject);
         }
         else

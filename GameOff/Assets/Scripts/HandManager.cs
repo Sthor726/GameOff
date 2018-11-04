@@ -18,7 +18,7 @@ public class HandManager : MonoBehaviour {
     public GameObject CardObject;
     public Transform handTransform;
 
-    public int cardsInBench;
+    public List<InGameCard> cardsInBench;
     [HideInInspector]
     public InGameCard cardInFront;
 
