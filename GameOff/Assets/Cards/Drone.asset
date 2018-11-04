@@ -15,4 +15,6 @@ MonoBehaviour:
   damage: 3
   maxHealth: 1
   cost: 2
-  ability: 0
+  description: Wow a card
+  icon: {fileID: 0}
+  ability: 1

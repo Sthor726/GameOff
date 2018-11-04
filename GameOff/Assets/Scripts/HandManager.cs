@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class HandManager : MonoBehaviour {
 
+    public static HandManager instance;
+    void Awake()
+    {
+        instance = this;
+    }
+
     public List<GameObject> cardsInHand;
     public Card[] cardsInDeck;
 
@@ -11,6 +17,12 @@ public class HandManager : MonoBehaviour {
 
     public GameObject CardObject;
     public Transform handTransform;
+
+    public int cardsInBench;
+    [HideInInspector]
+    public InGameCard cardInFront;
+
+    public Transform front;
 
 	// Use this for initialization
 	void Start () {

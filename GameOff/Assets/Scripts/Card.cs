@@ -10,9 +10,11 @@ public class Card : ScriptableObject {
     public float maxHealth;
     public float cost;
 
+    public string description;
+
     public Sprite icon;
 
     public Ability ability = 0;
 
 }
-public enum Ability { None, BoostEnergy,}
+public enum Ability { None, BoostEnergy, BenchAttack, DirectAttack}

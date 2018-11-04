@@ -15,6 +15,11 @@ public class CardObject : MonoBehaviour {
 
     public Image image;
 
+    public GameObject gameCard;
+    Transform bench;
+    Transform front;
+
+
 	// Use this for initialization
 	void Start () {
 
@@ -24,16 +29,31 @@ public class CardObject : MonoBehaviour {
         nameText.text = card.cardName;
         descriptionText.text = "Ability: " + card.ability.ToString();
         image.sprite = card.icon;
+
+        front = GameObject.Find("Front").transform;
+        bench = GameObject.Find("Bench").transform;
 	}
 	
     public void OnClick()
     {
-        if(Player.instance.currentEnergy >= card.cost)
+        if(Player.instance.currentEnergy >= card.cost && HandManager.instance.cardInFront == null)
+        {
+            Player.instance.currentEnergy -= card.cost;
+            GameObject _gameCard = Instantiate(gameCard, transform.position, transform.rotation);
+            _gameCard.GetComponent<InGameCard>().card = card;
+            _gameCard.transform.SetParent(front);
+            HandManager.instance.cardInFront = _gameCard.GetComponent<InGameCard>();
+            _gameCard.GetComponent<InGameCard>().isFront = true;
+            Destroy(gameObject);
+        }
+        else if(Player.instance.currentEnergy >= card.cost && HandManager.instance.cardsInBench < 5)
         {
 
             Player.instance.currentEnergy -= card.cost;
-
-            //instantiate card in game
+            HandManager.instance.cardsInBench++;
+            GameObject _gameCard = Instantiate(gameCard, transform.position, transform.rotation);
+            _gameCard.GetComponent<InGameCard>().card = card;
+            _gameCard.transform.SetParent(bench);
             Destroy(gameObject);
         }
         else
