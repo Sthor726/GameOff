@@ -11,10 +11,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2827b150499096540be69376e73a6f65, type: 3}
   m_Name: Drone
   m_EditorClassIdentifier: 
-  cardName: Drone
-  damage: 3
+  cardName: Droid
+  damage: 2
   maxHealth: 1
   cost: 2
-  description: Wow a card
+  description: A weak but affordable unit
+  attackTimer: 2
   icon: {fileID: 0}
   ability: 0

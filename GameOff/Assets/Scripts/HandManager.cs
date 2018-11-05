@@ -23,18 +23,24 @@ public class HandManager : MonoBehaviour {
     public InGameCard cardInFront;
 
     public Transform front;
+    public Transform bench;
 
 	// Use this for initialization
 	void Start () {
-        RefillHand();
-	}
+        int amount = amountToFill - cardsInHand.Count;
+        for (int i = 0; i < amount; i++)
+        {
+            int roll = Random.Range(0, cardsInDeck.Length);
+
+            GameObject _cardObject = Instantiate(CardObject, transform.position, transform.rotation);
+            cardsInHand.Add(_cardObject);
+            _cardObject.GetComponent<CardObject>().card = cardsInDeck[roll];
+            _cardObject.transform.SetParent(handTransform);
+        }
+    }
 	
 	// Update is called once per frame
-	void Update () {
-		if(cardsInHand.Count <= 0)
-        {
-            RefillHand();
-        }
+	void Update () { 
 
         for (int i = 0; i < cardsInHand.Count; i++)
         {
@@ -49,16 +55,22 @@ public class HandManager : MonoBehaviour {
 
 public void RefillHand()
     {
-        int amount = amountToFill - cardsInHand.Count;
-        for (int i = 0; i < amount; i++)
-        {
-            int roll = Random.Range(0, cardsInDeck.Length);
 
-            GameObject _cardObject = Instantiate(CardObject, transform.position, transform.rotation);
-            cardsInHand.Add(_cardObject);
-            _cardObject.GetComponent<CardObject>().card = cardsInDeck[roll];
-            _cardObject.transform.SetParent(handTransform);
+        if(Player.instance.currentEnergy >= 3)
+        {
+            Player.instance.currentEnergy -= 3;
+            int amount = amountToFill - cardsInHand.Count;
+            for (int i = 0; i < amount; i++)
+            {
+                int roll = Random.Range(0, cardsInDeck.Length);
+
+                GameObject _cardObject = Instantiate(CardObject, transform.position, transform.rotation);
+                cardsInHand.Add(_cardObject);
+                _cardObject.GetComponent<CardObject>().card = cardsInDeck[roll];
+                _cardObject.transform.SetParent(handTransform);
+            }
         }
+        
     }
 
 }

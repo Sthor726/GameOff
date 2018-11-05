@@ -9,8 +9,10 @@ public class Card : ScriptableObject {
     public float damage;
     public float maxHealth;
     public float cost;
-
+    [TextArea]
     public string description;
+
+    public float attackTimer;
 
     public Sprite icon;
 

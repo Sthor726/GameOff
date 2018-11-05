@@ -25,14 +25,19 @@ public class EnemyAI : MonoBehaviour {
 
     public float maxHealth = 100f;
     float currentHealth;
+
     public Slider healthSlider;
+    public Slider energySlider;
 
     public float currentEnergy;
     public float maxEnergy = 10f;
 
+    bool filledFront;
 
 	// Use this for initialization
 	void Start () {
+        
+
         currentHealth = maxHealth;
         healthSlider.value = currentHealth / maxHealth;
 
@@ -46,7 +51,8 @@ public class EnemyAI : MonoBehaviour {
 		
         if(currentEnergy < maxEnergy)
         {
-            currentEnergy += 1 * Time.deltaTime;
+            currentEnergy += .9f * Time.deltaTime;
+            energySlider.value = currentEnergy / maxEnergy;
         }
 
         if(currentEnergy >= selectedCard.cost)
@@ -54,9 +60,19 @@ public class EnemyAI : MonoBehaviour {
             PlaceCard();
         }
 
-        if(frontCard == null && cardsOnBench.Count > 1)
+        if(frontCard == null && cardsOnBench.Count > 0 && filledFront == false)
         {
-            FillFront(cardsOnBench[0].card);
+            filledFront = true;
+            StartCoroutine(MissingFront());
+
+        }
+
+        for (int i = 0; i < cardsOnBench.Count; i++)
+        {
+            if (cardsOnBench[i] == null)
+            {
+                cardsOnBench.Remove(cardsOnBench[i]);
+            }
         }
 
 	}
@@ -74,33 +90,69 @@ public void TakeDamage(float amount)
     void PlaceCard()
     {
         
-        if(cardsOnBench.Count < 4)
-        {
-            currentEnergy -= selectedCard.cost;
+        if (cardsOnBench.Count < 5)
+            {
+                currentEnergy -= selectedCard.cost;
 
-            GameObject _cardObject = Instantiate(cardObject, transform.position, transform.rotation);
-            _cardObject.transform.SetParent(benchTransform);
-            cardsOnBench.Add(_cardObject.GetComponent<EnemyCard>());
-            _cardObject.GetComponent<EnemyCard>().card = selectedCard;
+                GameObject _cardObject = Instantiate(cardObject, transform.position, transform.rotation);
+                _cardObject.transform.SetParent(benchTransform);
+                cardsOnBench.Add(_cardObject.GetComponent<EnemyCard>());
+                _cardObject.GetComponent<EnemyCard>().card = selectedCard;
 
-            int roll = Random.Range(0, deck.Length);
-            selectedCard = deck[roll];
+                int roll = Random.Range(0, deck.Length);
+                selectedCard = deck[roll];
 
-            
+
+            }
+            else
+            {
+            return;
         }
     }
 
-    void FillFront(Card benchedCard)
+    IEnumerator MissingFront()
     {
+        yield return new WaitForSeconds(3f);
+
+        for (int i = 0; i < cardsOnBench.Count; i++)
+        {
+            if (cardsOnBench[i].card.ability == Ability.DirectAttack)
+            {
+                FillFront(cardsOnBench[i]);
+
+                yield break;
+            }
+
+            if (cardsOnBench[i].card.ability != Ability.BoostEnergy)
+            {
+                FillFront(cardsOnBench[i]);
+
+                yield break;
+            }
+
+
+        }
+
+        int _roll = Random.Range(0, cardsOnBench.Count);
+        FillFront(cardsOnBench[_roll]);
+
+
+    }
+
+    void FillFront(EnemyCard benchedCard)
+    {
+
+      
 
         GameObject _cardObject = Instantiate(cardObject, transform.position, transform.rotation);
         _cardObject.transform.SetParent(frontTransform);
         _cardObject.GetComponent<EnemyCard>().isFront = true;
         frontCard = _cardObject.GetComponent<EnemyCard>();
 
-        _cardObject.GetComponent<EnemyCard>().card = benchedCard;
-        cardsOnBench.Remove(cardsOnBench[0]);
-        Destroy(cardsOnBench[0].gameObject);
+        _cardObject.GetComponent<EnemyCard>().card = benchedCard.card;
+        if(benchedCard != null)
+        Destroy(benchedCard.gameObject);
+        filledFront = false;
     }
 
 }

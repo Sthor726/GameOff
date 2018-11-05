@@ -27,7 +27,7 @@ public class CardObject : MonoBehaviour {
         costText.text = card.cost.ToString();
         healthText.text = card.maxHealth.ToString();
         nameText.text = card.cardName;
-        descriptionText.text = "Ability: " + card.ability.ToString();
+        descriptionText.text = card.description;
         image.sprite = card.icon;
 
         front = GameObject.Find("Front").transform;

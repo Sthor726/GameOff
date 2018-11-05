@@ -26,6 +26,7 @@ public class InGameCard : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        maxTimer = card.attackTimer;
         timer = maxTimer;
         maxHealth = card.maxHealth;
         currentHealth = maxHealth;
@@ -37,26 +38,40 @@ public class InGameCard : MonoBehaviour {
         Name.text = card.cardName;
         icon.sprite = card.icon;
     }
-	
-	// Update is called once per frame
-	void Update () {
-        if(isFront == true)
+
+    // Update is called once per frame
+    void Update() {
+
+        if (card.ability == Ability.BoostEnergy)
+        {
+            timer -= Time.deltaTime;
+        }
+        
+        if (card.ability == Ability.BoostEnergy && timer <= 0)
+        {
+            if (Player.instance.currentEnergy < Player.instance.maxEnergy - 2f)
+            {
+                Player.instance.currentEnergy += 1.5f;
+                timer = maxTimer;
+            }
+
+        }
+
+        if (isFront == true)
         {
             timer -= Time.deltaTime;
             if (timer <= 0)
             {
-                Attack();
+               
+                
+                
+                    Attack();
+                
+                
             }
         }
         
-        if(card.ability == Ability.BoostEnergy)
-        {
-            if(Player.instance.currentEnergy < Player.instance.maxEnergy - 0.1f)
-            {
-                Player.instance.currentEnergy += (0.7f * Time.deltaTime);
-            }
-
-        }
+        
         
 
 
@@ -64,16 +79,19 @@ public class InGameCard : MonoBehaviour {
 
 public void Attack()
     {
-        if(card.ability == Ability.DirectAttack)
+        if (card.ability == Ability.DirectAttack)
         {
             EnemyAI.instance.TakeDamage(card.damage);
         }
         else if(card.ability == Ability.BenchAttack)
         {
-            for (int i = 0; i < EnemyAI.instance.cardsOnBench.Count; i++)
+            foreach(EnemyCard enemyCard in EnemyAI.instance.cardsOnBench)
             {
-                EnemyAI.instance.cardsOnBench[i].TakeDamage(card.damage);
+                if(enemyCard != null)
+                enemyCard.TakeDamage(card.damage);
             }
+            if (EnemyAI.instance.frontCard != null)
+                EnemyAI.instance.frontCard.TakeDamage(card.damage);
         } else if(EnemyAI.instance.frontCard == null)
         {
             EnemyAI.instance.TakeDamage(card.damage);
@@ -82,6 +100,7 @@ public void Attack()
         {
             EnemyAI.instance.frontCard.GetComponent<EnemyCard>().TakeDamage(card.damage);
         }
+
         timer = maxTimer;
 
     }
@@ -109,6 +128,13 @@ public void Attack()
             transform.SetParent(HandManager.instance.front);
             isFront = true;
             HandManager.instance.cardInFront = this;
+            HandManager.instance.cardsInBench.Remove(this);
+        }
+        else if (HandManager.instance.cardsInBench.Count < 5 && isFront == true)
+        {
+            transform.SetParent(HandManager.instance.bench);
+            isFront = false;
+            HandManager.instance.cardInFront = null;
         }
     }
 

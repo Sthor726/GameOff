@@ -15,6 +15,7 @@ MonoBehaviour:
   damage: 7
   maxHealth: 10
   cost: 8
-  description: 
+  description: Attacks slowly but deals massive damage
+  attackTimer: 5
   icon: {fileID: 0}
   ability: 0
