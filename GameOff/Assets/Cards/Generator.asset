@@ -18,4 +18,5 @@ MonoBehaviour:
   description: Speeds up energy production
   attackTimer: 3
   icon: {fileID: 21300000, guid: 34b4c6fcda57b184487cbbd04c515939, type: 3}
+  shopCost: 25
   ability: 1

@@ -13,9 +13,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Lazer Tower
   damage: 6
-  maxHealth: 4
+  maxHealth: 5
   cost: 7
   description: Directly attacks the enemy's health
   attackTimer: 3
   icon: {fileID: 21300000, guid: 8316c424dbb7ef841895be6a9dd30e4a, type: 3}
+  shopCost: 30
   ability: 3

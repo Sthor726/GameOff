@@ -16,7 +16,10 @@ public class Card : ScriptableObject {
 
     public Sprite icon;
 
+
+    public int shopCost;
+
     public Ability ability = 0;
 
 }
-public enum Ability { None, BoostEnergy, BenchAttack, DirectAttack}
+public enum Ability { None, BoostEnergy, BenchAttack, DirectAttack, Shield}

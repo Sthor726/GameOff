@@ -57,7 +57,7 @@ public class EnemyCard : MonoBehaviour {
         {
             if (EnemyAI.instance.currentEnergy < EnemyAI.instance.maxEnergy - 0.1f)
             {
-                EnemyAI.instance.currentEnergy += (0.3f * Time.deltaTime);
+                EnemyAI.instance.currentEnergy += (0.4f * Time.deltaTime);
             }
 
         }
@@ -68,8 +68,19 @@ public class EnemyCard : MonoBehaviour {
 
     public void Attack()
     {
+        foreach (InGameCard gameCard in HandManager.instance.cardsInBench)
+        {
+            if(gameCard.card.ability == Ability.Shield)
+            {
+                gameCard.TakeDamage(card.damage);
+                timer = maxTimer;
+                return;
+            }
+        }
+        
         if (card.ability == Ability.DirectAttack)
         {
+            
             Player.instance.TakeDamage(card.damage);
         }
         else if (card.ability == Ability.BenchAttack)

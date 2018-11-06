@@ -57,7 +57,7 @@ public class InGameCard : MonoBehaviour {
 
         }
 
-        if (isFront == true)
+        if (isFront == true && card.ability != Ability.Shield)
         {
             timer -= Time.deltaTime;
             if (timer <= 0)
@@ -129,12 +129,24 @@ public void Attack()
             isFront = true;
             HandManager.instance.cardInFront = this;
             HandManager.instance.cardsInBench.Remove(this);
+        }else if (HandManager.instance.cardInFront != null && isFront == false)
+        {
+            HandManager.instance.cardInFront.transform.SetParent(HandManager.instance.bench);
+            HandManager.instance.cardInFront.isFront = false;
+            HandManager.instance.cardsInBench.Add(HandManager.instance.cardInFront);
+            HandManager.instance.cardInFront = null;
+
+            transform.SetParent(HandManager.instance.front);
+            isFront = true;
+            HandManager.instance.cardInFront = this;
+            HandManager.instance.cardsInBench.Remove(this);
         }
         else if (HandManager.instance.cardsInBench.Count < 5 && isFront == true)
         {
             transform.SetParent(HandManager.instance.bench);
             isFront = false;
             HandManager.instance.cardInFront = null;
+            HandManager.instance.cardsInBench.Add(this);
         }
     }
 
