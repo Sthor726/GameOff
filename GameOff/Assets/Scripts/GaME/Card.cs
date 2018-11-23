@@ -21,5 +21,7 @@ public class Card : ScriptableObject {
 
     public Ability ability = 0;
 
+    public int index = 0;
+
 }
-public enum Ability { None, BoostEnergy, BenchAttack, DirectAttack, Shield}
+public enum Ability { None, BoostEnergy, BenchAttack, DirectAttack, Shield, Charger}

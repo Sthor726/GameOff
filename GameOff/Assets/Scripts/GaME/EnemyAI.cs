@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class EnemyAI : MonoBehaviour {
 
     public static EnemyAI instance;
@@ -11,6 +10,8 @@ public class EnemyAI : MonoBehaviour {
     {
         instance = this;
     }
+
+    public Animator shakeAnim;
 
     public Card[] deck;
     public List<EnemyCard> cardsOnBench;
@@ -36,7 +37,6 @@ public class EnemyAI : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        
 
         currentHealth = maxHealth;
         healthSlider.value = currentHealth / maxHealth;
@@ -79,12 +79,21 @@ public class EnemyAI : MonoBehaviour {
 
 public void TakeDamage(float amount)
     {
-        currentHealth -= amount;
-        healthSlider.value = currentHealth / maxHealth;
-        if(currentHealth <= 0)
+        if(EndGame.instance.gameEnded == false)
         {
-            Destroy(gameObject);
+            if (AudioManager.instance != null)
+            {
+                shakeAnim.SetTrigger("Shake");
+                AudioManager.instance.PlaySound("Hit");
+            }
+            currentHealth -= amount;
+            healthSlider.value = currentHealth / maxHealth;
+            if (currentHealth <= 0)
+            {
+                EndGame.instance.OnGameEnded(true, 50f, false);
+            }
         }
+        
     }
 
     void PlaceCard()
@@ -150,6 +159,7 @@ public void TakeDamage(float amount)
         frontCard = _cardObject.GetComponent<EnemyCard>();
 
         _cardObject.GetComponent<EnemyCard>().card = benchedCard.card;
+        _cardObject.GetComponent<EnemyCard>().currentHealth = benchedCard.currentHealth;
         if(benchedCard != null)
         Destroy(benchedCard.gameObject);
         filledFront = false;

@@ -16,6 +16,8 @@ MonoBehaviour:
   maxHealth: 1
   cost: 2
   description: A weak but affordable unit
-  attackTimer: 2
+  attackTimer: 1.5
   icon: {fileID: 21300000, guid: f4e968ee3f95fc64287fff151092c95f, type: 3}
+  shopCost: 0
   ability: 0
+  index: 0

@@ -22,10 +22,15 @@ public class InGameCard : MonoBehaviour {
     public float maxTimer;
 
     public bool isFront;
+    Animator anim;
 
+    public Outline outline;
+    public bool isBoosted;
 
 	// Use this for initialization
 	void Start () {
+        anim = GameObject.Find("Front").GetComponent<Animator>();
+
         maxTimer = card.attackTimer;
         timer = maxTimer;
         maxHealth = card.maxHealth;
@@ -42,6 +47,17 @@ public class InGameCard : MonoBehaviour {
     // Update is called once per frame
     void Update() {
 
+        if(isBoosted == true)
+        {
+            outline.enabled = true;
+
+        }
+        else
+        {
+            outline.enabled = false;
+
+        }
+        if(card.ability == Ability.Charger)
         if (card.ability == Ability.BoostEnergy)
         {
             timer -= Time.deltaTime;
@@ -57,7 +73,7 @@ public class InGameCard : MonoBehaviour {
 
         }
 
-        if (isFront == true && card.ability != Ability.Shield)
+        if (isFront == true && card.ability != Ability.Shield && card.ability != Ability.Charger)
         {
             timer -= Time.deltaTime;
             if (timer <= 0)
@@ -79,34 +95,72 @@ public class InGameCard : MonoBehaviour {
 
 public void Attack()
     {
+
+        anim.SetTrigger("Attack");
+
         if (card.ability == Ability.DirectAttack)
         {
-            EnemyAI.instance.TakeDamage(card.damage);
-        }
-        else if(card.ability == Ability.BenchAttack)
-        {
-            foreach(EnemyCard enemyCard in EnemyAI.instance.cardsOnBench)
+            if (isBoosted == false)
             {
-                if(enemyCard != null)
-                enemyCard.TakeDamage(card.damage);
+                EnemyAI.instance.TakeDamage(card.damage);
             }
-            if (EnemyAI.instance.frontCard != null)
-                EnemyAI.instance.frontCard.TakeDamage(card.damage);
-        } else if(EnemyAI.instance.frontCard == null)
-        {
-            EnemyAI.instance.TakeDamage(card.damage);
+            else
+            {
+                EnemyAI.instance.TakeDamage(card.damage + 2f);
+            }
+
         }
-        else
+        else if (card.ability == Ability.BenchAttack)
         {
-            EnemyAI.instance.frontCard.GetComponent<EnemyCard>().TakeDamage(card.damage);
+            if (isBoosted == false)
+            {
+                foreach (EnemyCard enemyCard in EnemyAI.instance.cardsOnBench)
+                {
+                    if (enemyCard != null)
+                        enemyCard.TakeDamage(card.damage);
+                }
+                if (EnemyAI.instance.frontCard != null)
+                    EnemyAI.instance.frontCard.TakeDamage(card.damage);
+            }
+            else if (EnemyAI.instance.frontCard == null)
+            {
+                EnemyAI.instance.TakeDamage(card.damage);
+            }
+            else
+            {
+                EnemyAI.instance.frontCard.GetComponent<EnemyCard>().TakeDamage(card.damage);
+            }
+
+            if (isBoosted == true)
+            {
+                foreach (EnemyCard enemyCard in EnemyAI.instance.cardsOnBench)
+                {
+                    if (enemyCard != null)
+                        enemyCard.TakeDamage(card.damage + 2f);
+                }
+                if (EnemyAI.instance.frontCard != null)
+                    EnemyAI.instance.frontCard.TakeDamage(card.damage + 2f);
+            }
+            else if (EnemyAI.instance.frontCard == null)
+            {
+                EnemyAI.instance.TakeDamage(card.damage + 2f);
+            }
+            else
+            {
+                EnemyAI.instance.frontCard.GetComponent<EnemyCard>().TakeDamage(card.damage + 2f);
+            }
         }
 
-        timer = maxTimer;
+    timer = maxTimer;
 
     }
 
     public void TakeDamage(float amount)
     {
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlaySound("CardHit");
+        }
         currentHealth -= amount;
         healthText.text = Mathf.Floor(currentHealth).ToString();
         if(currentHealth <= 0)
@@ -148,6 +202,11 @@ public void Attack()
             HandManager.instance.cardInFront = null;
             HandManager.instance.cardsInBench.Add(this);
         }
+    }
+
+    public void EndAttack()
+    {
+        transform.SetParent(HandManager.instance.front);
     }
 
 }

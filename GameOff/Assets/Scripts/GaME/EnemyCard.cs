@@ -9,7 +9,7 @@ public class EnemyCard : MonoBehaviour {
     public Card card;
 
     float maxHealth;
-    float currentHealth;
+    public float currentHealth;
 
     public Text healthText;
     public Text costText;
@@ -24,10 +24,13 @@ public class EnemyCard : MonoBehaviour {
 
     public bool isFront;
 
+    Animator anim;
 
     // Use this for initialization
     void Start()
     {
+        anim = GameObject.Find("EnemyFront").GetComponent<Animator>();
+
         maxTimer = card.attackTimer;
         timer = maxTimer;
         maxHealth = card.maxHealth;
@@ -68,6 +71,8 @@ public class EnemyCard : MonoBehaviour {
 
     public void Attack()
     {
+        anim.SetTrigger("Attack");
+
         foreach (InGameCard gameCard in HandManager.instance.cardsInBench)
         {
             if(gameCard.card.ability == Ability.Shield)
@@ -108,6 +113,10 @@ public class EnemyCard : MonoBehaviour {
 
     public void TakeDamage(float amount)
     {
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlaySound("CardHit");
+        }
         currentHealth -= amount;
         if(healthText != null )
         healthText.text = Mathf.Floor(currentHealth).ToString();

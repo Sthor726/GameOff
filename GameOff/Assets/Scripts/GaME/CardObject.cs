@@ -19,9 +19,13 @@ public class CardObject : MonoBehaviour {
     Transform bench;
     Transform front;
 
+    Outline outline;
 
 	// Use this for initialization
 	void Start () {
+
+        outline = GetComponent<Outline>();
+        outline.enabled = false;
 
         dmgText.text = card.damage.ToString();
         costText.text = card.cost.ToString();
@@ -67,6 +71,13 @@ public class CardObject : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		
+		if(Player.instance.currentEnergy > card.cost)
+        {
+            outline.enabled = true;
+        }
+        else
+        {
+            outline.enabled = false;
+        }
 	}
 }

@@ -10,7 +10,7 @@ public class Player : MonoBehaviour {
     {
         instance = this;
     }
-
+    public Animator shakeAnim;
 
     public float maxHealth = 100f;
     float currentHealth;
@@ -45,12 +45,21 @@ public class Player : MonoBehaviour {
 
 public void TakeDamage(float amount)
     {
-        currentHealth -= amount;
-        healthSlider.value = currentHealth / maxHealth;
-        if(currentHealth <= 0)
+        if(EndGame.instance.gameEnded == false)
         {
-            //Die();
+            if (AudioManager.instance != null)
+            {
+                shakeAnim.SetTrigger("Shake");
+                AudioManager.instance.PlaySound("Hit");
+            }
+            currentHealth -= amount;
+            healthSlider.value = currentHealth / maxHealth;
+            if (currentHealth <= 0)
+            {
+                EndGame.instance.OnGameEnded(false, 0, false);
+            }
         }
+        
     }
 
 }

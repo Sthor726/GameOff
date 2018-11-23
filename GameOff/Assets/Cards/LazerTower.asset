@@ -11,12 +11,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2827b150499096540be69376e73a6f65, type: 3}
   m_Name: LazerTower
   m_EditorClassIdentifier: 
-  cardName: Lazer Tower
-  damage: 6
-  maxHealth: 5
-  cost: 7
+  cardName: Laser Tower
+  damage: 4
+  maxHealth: 4
+  cost: 5
   description: Directly attacks the enemy's health
-  attackTimer: 3
+  attackTimer: 2
   icon: {fileID: 21300000, guid: 8316c424dbb7ef841895be6a9dd30e4a, type: 3}
   shopCost: 30
   ability: 3
+  index: 4

@@ -11,7 +11,7 @@ public class HandManager : MonoBehaviour {
     }
 
     public List<GameObject> cardsInHand;
-    public Card[] cardsInDeck;
+    public List<Card> cardsInDeck;
 
     public int amountToFill;
 
@@ -27,10 +27,19 @@ public class HandManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+        if(DeckManager0.instance != null)
+        {
+            for (int i = 0; i < DeckManager0.instance.currentDeck.Count; i++)
+            {
+                cardsInDeck.Add(DeckManager0.instance.currentDeck[i]);
+            }
+        }
+
         int amount = amountToFill - cardsInHand.Count;
         for (int i = 0; i < amount; i++)
         {
-            int roll = Random.Range(0, cardsInDeck.Length);
+            int roll = Random.Range(0, cardsInDeck.Count);
 
             GameObject _cardObject = Instantiate(CardObject, transform.position, transform.rotation);
             cardsInHand.Add(_cardObject);
@@ -39,6 +48,7 @@ public class HandManager : MonoBehaviour {
         }
     }
 	
+
 	// Update is called once per frame
 	void Update () { 
 
@@ -49,27 +59,48 @@ public class HandManager : MonoBehaviour {
                 cardsInHand.Remove(cardsInHand[i]);
             }
         }
-
+        if(cardsInBench.Count <= 0 && cardInFront == null && cardsInDeck.Count <= 0)
+        {
+            EndGame.instance.OnGameEnded(false, 0, true);
+        }
     }
 
 
 public void RefillHand()
     {
-
-        if(Player.instance.currentEnergy >= 3)
+        if(EndGame.instance.gameEnded == false)
         {
-            Player.instance.currentEnergy -= 3;
-            int amount = amountToFill - cardsInHand.Count;
-            for (int i = 0; i < amount; i++)
+            if (Player.instance.currentEnergy >= 3)
             {
-                int roll = Random.Range(0, cardsInDeck.Length);
+                int amount;
+                Player.instance.currentEnergy -= 3;
+                if (cardsInDeck.Count >= 5)
+                {
+                    amount = amountToFill - cardsInHand.Count;
+                }
+                else if (cardsInDeck.Count > 0)
+                {
+                    amount = cardsInDeck.Count;
+                }
+                else
+                {
+                    amount = 0;
+                   
+                }
 
-                GameObject _cardObject = Instantiate(CardObject, transform.position, transform.rotation);
-                cardsInHand.Add(_cardObject);
-                _cardObject.GetComponent<CardObject>().card = cardsInDeck[roll];
-                _cardObject.transform.SetParent(handTransform);
+                for (int i = 0; i < amount; i++)
+                {
+                    int roll = Random.Range(0, cardsInDeck.Count);
+
+                    GameObject _cardObject = Instantiate(CardObject, transform.position, transform.rotation);
+                    cardsInHand.Add(_cardObject);
+                    _cardObject.GetComponent<CardObject>().card = cardsInDeck[roll];
+                    _cardObject.transform.SetParent(handTransform);
+                    cardsInDeck.Remove(_cardObject.GetComponent<CardObject>().card);
+                }
             }
         }
+       
         
     }
 

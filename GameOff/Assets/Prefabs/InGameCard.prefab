@@ -40,7 +40,6 @@ GameObject:
   - component: {fileID: 114413021785463338}
   - component: {fileID: 114759956408080702}
   - component: {fileID: 114158519537041396}
-  - component: {fileID: 95203290200862920}
   m_Layer: 5
   m_Name: InGameCard
   m_TagString: Untagged
@@ -184,24 +183,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!95 &95203290200862920
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1129678217808692}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a1aa102c872f9bd47a999dc6995c7008, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114055631147061948
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -794,7 +775,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 84.785, y: -106.2}
+  m_AnchoredPosition: {x: 113, y: -137.53}
   m_SizeDelta: {x: 169.57, y: 212.45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224871077981982092
