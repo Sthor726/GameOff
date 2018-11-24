@@ -26,6 +26,7 @@ public class CrateManager : MonoBehaviour {
     public GameObject cratePrefab;
     public Transform panelTransform;
 
+    public GameObject warningPanel;
 
     #region cardVar
 
@@ -84,25 +85,32 @@ public class CrateManager : MonoBehaviour {
     public void OpenCrate(GameObject crate)
     {
         totalCrates--;
+        if(DeckManager0.instance.newCards.Count > 0)
+        {
+            panel.SetActive(true);
+            currentCrate = crate;
 
-        panel.SetActive(true);
-        currentCrate = crate;
+            panelOpen = true;
+            anim.SetTrigger("Open");
+            currentItemsRemaining--;
 
-        panelOpen = true;
-        anim.SetTrigger("Open");
-        currentItemsRemaining--;
+            int roll = Random.Range(0, DeckManager0.instance.newCards.Count);
 
-        int roll = Random.Range(0, DeckManager0.instance.newCards.Count);
+            health.text = DeckManager0.instance.newCards[roll].maxHealth.ToString();
+            cost.text = DeckManager0.instance.newCards[roll].cost.ToString();
+            atk.text = DeckManager0.instance.newCards[roll].damage.ToString();
+            cardName.text = DeckManager0.instance.newCards[roll].cardName.ToString();
+            description.text = DeckManager0.instance.newCards[roll].description.ToString();
+            icon.sprite = DeckManager0.instance.newCards[roll].icon;
 
-        health.text = DeckManager0.instance.newCards[roll].maxHealth.ToString();
-        cost.text = DeckManager0.instance.newCards[roll].cost.ToString();
-        atk.text = DeckManager0.instance.newCards[roll].damage.ToString();
-        cardName.text = DeckManager0.instance.newCards[roll].cardName.ToString();
-        description.text = DeckManager0.instance.newCards[roll].description.ToString();
-        icon.sprite = DeckManager0.instance.newCards[roll].icon;
-
-        AudioManager.instance.PlaySound("OpenCrate");
-        DeckManager0.instance.AddCard(DeckManager0.instance.newCards[roll]);
+            AudioManager.instance.PlaySound("OpenCrate");
+            DeckManager0.instance.AddCard(DeckManager0.instance.newCards[roll]);
+        } else
+        {
+            warningPanel.SetActive(true);
+            Destroy(currentCrate);
+        }
+       
 
     }
 
@@ -113,6 +121,9 @@ public class CrateManager : MonoBehaviour {
         totalCrates++;
     }
 
-
+    public void ClosePanel()
+    {
+        warningPanel.SetActive(false);
+    }
 
 }

@@ -16,7 +16,7 @@ MonoBehaviour:
   maxHealth: 10
   cost: 8
   description: Attacks slowly but deals massive damage
-  attackTimer: 4
+  attackTimer: 3.5
   icon: {fileID: 21300000, guid: b400f591fddd6b349a9db1cbd48a9fa6, type: 3}
   shopCost: 0
   ability: 0

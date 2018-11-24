@@ -31,6 +31,8 @@ public class InGameCard : MonoBehaviour {
 	void Start () {
         anim = GameObject.Find("Front").GetComponent<Animator>();
 
+        isBoosted = false;
+
         maxTimer = card.attackTimer;
         timer = maxTimer;
         maxHealth = card.maxHealth;
@@ -88,7 +90,18 @@ public class InGameCard : MonoBehaviour {
         }
         
         
-        
+        if(isFront == true)
+        {
+            for (int i = 0; i < HandManager.instance.cardsInBench.Count; i++)
+            {
+                if(HandManager.instance.cardsInBench[i].card.ability == Ability.Charger)
+                {
+                    isBoosted = true;
+                    return;
+                }
+                isBoosted = false;
+            }
+        }
 
 
 	}
@@ -141,17 +154,26 @@ public void Attack()
                 if (EnemyAI.instance.frontCard != null)
                     EnemyAI.instance.frontCard.TakeDamage(card.damage + 2f);
             }
-            else if (EnemyAI.instance.frontCard == null)
-            {
-                EnemyAI.instance.TakeDamage(card.damage + 2f);
-            }
-            else
-            {
-                EnemyAI.instance.frontCard.GetComponent<EnemyCard>().TakeDamage(card.damage + 2f);
-            }
+        }
+        else if (EnemyAI.instance.frontCard == null && isBoosted == true)
+        {
+            EnemyAI.instance.TakeDamage(card.damage + 2f);
+        }
+        else if(EnemyAI.instance.frontCard == null && isBoosted == true)
+        {
+            EnemyAI.instance.frontCard.GetComponent<EnemyCard>().TakeDamage(card.damage + 2f);
+        }
+        else if (EnemyAI.instance.frontCard == null && isBoosted == false)
+        {
+            EnemyAI.instance.TakeDamage(card.damage);
+        }
+        else if (EnemyAI.instance.frontCard == null && isBoosted == false)
+        {
+            EnemyAI.instance.frontCard.GetComponent<EnemyCard>().TakeDamage(card.damage);
         }
 
-    timer = maxTimer;
+
+        timer = maxTimer;
 
     }
 

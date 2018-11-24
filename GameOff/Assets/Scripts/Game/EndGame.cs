@@ -43,6 +43,7 @@ public class EndGame : MonoBehaviour {
 
     public IEnumerator addCoin(float amount)
     {
+        amount -= (amount / 2) - Random.Range(0, 15);
         float amountEarned = 0;
         while(amountEarned < amount)
         {

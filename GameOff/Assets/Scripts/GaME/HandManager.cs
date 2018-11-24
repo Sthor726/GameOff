@@ -36,7 +36,15 @@ public class HandManager : MonoBehaviour {
             }
         }
 
-        int amount = amountToFill - cardsInHand.Count;
+        int amount = 0;
+        if (cardsInDeck.Count >= 5)
+        {
+            amount = amountToFill - cardsInHand.Count;
+        }
+        else if (cardsInDeck.Count > 0)
+        {
+            amount = cardsInDeck.Count;
+        }
         for (int i = 0; i < amount; i++)
         {
             int roll = Random.Range(0, cardsInDeck.Count);
