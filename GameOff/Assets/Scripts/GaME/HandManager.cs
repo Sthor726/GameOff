@@ -88,7 +88,14 @@ public void RefillHand()
                 }
                 else if (cardsInDeck.Count > 0)
                 {
-                    amount = cardsInDeck.Count;
+                    if(amountToFill - cardsInHand.Count <= cardsInDeck.Count)
+                    {
+                        amount = amountToFill - cardsInHand.Count;
+                    }
+                    else
+                    {
+                        amount = cardsInDeck.Count;
+                    }
                 }
                 else
                 {
@@ -98,13 +105,17 @@ public void RefillHand()
 
                 for (int i = 0; i < amount; i++)
                 {
-                    int roll = Random.Range(0, cardsInDeck.Count);
+                    if(cardsInDeck.Count > 0)
+                    {
+                        int roll = Random.Range(0, cardsInDeck.Count);
 
-                    GameObject _cardObject = Instantiate(CardObject, transform.position, transform.rotation);
-                    cardsInHand.Add(_cardObject);
-                    _cardObject.GetComponent<CardObject>().card = cardsInDeck[roll];
-                    _cardObject.transform.SetParent(handTransform);
-                    cardsInDeck.Remove(_cardObject.GetComponent<CardObject>().card);
+                        GameObject _cardObject = Instantiate(CardObject, transform.position, transform.rotation);
+                        cardsInHand.Add(_cardObject);
+                        _cardObject.GetComponent<CardObject>().card = cardsInDeck[roll];
+                        _cardObject.transform.SetParent(handTransform);
+                        cardsInDeck.Remove(_cardObject.GetComponent<CardObject>().card);
+                    }
+                   
                 }
             }
         }

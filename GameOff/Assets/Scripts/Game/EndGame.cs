@@ -16,7 +16,9 @@ public class EndGame : MonoBehaviour {
     public Text title;
     public Text earnedText;
     public bool gameEnded;
-	
+
+    public GameObject helpPanel;
+
     public void OnGameEnded(bool won, float amount, bool ranOutOfCards)
     {
         panel.SetActive(true);
@@ -83,4 +85,14 @@ public void ExitScene()
         SceneManager.LoadScene(2);
     }
 
+    public void OpenHelpPanel()
+    {
+        helpPanel.SetActive(true);
+        Time.timeScale = 0;
+    }
+    public void CloseHelpPanel()
+    {
+        Time.timeScale = 1;
+        helpPanel.SetActive(false);
+    }
 }

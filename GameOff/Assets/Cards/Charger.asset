@@ -14,7 +14,7 @@ MonoBehaviour:
   cardName: Charger
   damage: 0
   maxHealth: 3
-  cost: 4
+  cost: 7
   description: Makes your attacking card stronger
   attackTimer: 0
   icon: {fileID: 21300000, guid: 59920292258d85244b705e06d8a19994, type: 3}

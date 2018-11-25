@@ -159,7 +159,7 @@ public void Attack()
         {
             EnemyAI.instance.TakeDamage(card.damage + 2f);
         }
-        else if(EnemyAI.instance.frontCard == null && isBoosted == true)
+        else if(EnemyAI.instance.frontCard != null && isBoosted == true)
         {
             EnemyAI.instance.frontCard.GetComponent<EnemyCard>().TakeDamage(card.damage + 2f);
         }
@@ -167,7 +167,7 @@ public void Attack()
         {
             EnemyAI.instance.TakeDamage(card.damage);
         }
-        else if (EnemyAI.instance.frontCard == null && isBoosted == false)
+        else if (EnemyAI.instance.frontCard != null && isBoosted == false)
         {
             EnemyAI.instance.frontCard.GetComponent<EnemyCard>().TakeDamage(card.damage);
         }

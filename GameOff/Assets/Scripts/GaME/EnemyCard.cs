@@ -98,6 +98,10 @@ public class EnemyCard : MonoBehaviour {
             {
                 HandManager.instance.cardInFront.TakeDamage(card.damage);
             }
+            else
+            {
+                Player.instance.TakeDamage(card.damage);
+            }
         }
         else if (HandManager.instance.cardInFront == null)
         {
